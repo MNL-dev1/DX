@@ -196,7 +196,7 @@ document.addEventListener('DOMContentLoaded', async function() {
     function initDxMenu(){
       if (document.getElementById('dxMenuBtn')) return;
       var html = '' +
-        '<button id="dxMenuBtn" aria-label="Menu" style="position:fixed;top:20px;right:clamp(20px,4vw,60px);z-index:300;display:flex;flex-direction:column;justify-content:center;align-items:center;gap:5px;width:46px;height:46px;background:rgba(12,16,23,0.8);border:1px solid rgba(233,237,244,0.16);border-radius:12px;cursor:pointer;padding:0;">' +
+        '<button id="dxMenuBtn" aria-label="Menu" style="position:fixed;top:20px;right:clamp(20px,4vw,60px);z-index:250;display:flex;flex-direction:column;justify-content:center;align-items:center;gap:5px;width:46px;height:46px;background:rgba(12,16,23,0.8);border:1px solid rgba(233,237,244,0.16);border-radius:12px;cursor:pointer;padding:0;">' +
           '<span style="display:block;width:20px;height:2px;background:#E9EDF4;border-radius:2px;"></span>' +
           '<span style="display:block;width:20px;height:2px;background:#E9EDF4;border-radius:2px;"></span>' +
           '<span style="display:block;width:14px;height:2px;background:#3E6BFF;border-radius:2px;align-self:flex-start;margin-left:13px;"></span>' +
@@ -214,10 +214,12 @@ document.addEventListener('DOMContentLoaded', async function() {
       var btn = document.getElementById('dxMenuBtn');
       var closeBtn = document.getElementById('dxMenuClose');
       var overlay = document.getElementById('dxMenuOverlay');
-      btn.addEventListener('click', function(){ overlay.style.display = 'flex'; });
-      closeBtn.addEventListener('click', function(){ overlay.style.display = 'none'; });
+      function openMenu(){ overlay.style.display = 'flex'; btn.style.display = 'none'; }
+      function closeMenu(){ overlay.style.display = 'none'; btn.style.display = 'flex'; }
+      btn.addEventListener('click', openMenu);
+      closeBtn.addEventListener('click', closeMenu);
       overlay.querySelectorAll('a').forEach(function(a){
-        a.addEventListener('click', function(){ overlay.style.display = 'none'; });
+        a.addEventListener('click', closeMenu);
       });
     }
     if (document.readyState === 'loading') {
