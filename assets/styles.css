@@ -358,3 +358,35 @@
     .tab { flex: none; }
     .tab-panel { padding: 26px 18px; }
   }
+
+  /* ---------- bande d'annonces ---------- */
+  .topbar { background: var(--ink); color: #DDE3EE; border-bottom: 0; }
+  .topbar .loc { color: #9AA3B5; }
+  .ticker { position: relative; flex: 1; height: 46px; overflow: hidden; }
+  .ticker .msg {
+    position: absolute; inset: 0; display: flex; align-items: center; gap: 9px;
+    opacity: 0; transform: translateY(100%); transition: opacity .45s, transform .45s;
+    white-space: nowrap; color: #DDE3EE; pointer-events: none;
+  }
+  .ticker .msg.on { opacity: 1; transform: none; pointer-events: auto; }
+  .ticker .msg.out { opacity: 0; transform: translateY(-100%); }
+  .ticker .msg > .i:first-child { color: var(--blue-mid); }
+  .ticker .msg b { color: #fff; font-weight: 600; }
+  .ticker .msg span { overflow: hidden; text-overflow: ellipsis; }
+  .ticker .msg > .i:last-child { opacity: .6; transition: transform .2s, opacity .2s; }
+  .ticker .msg:hover > .i:last-child { opacity: 1; transform: translateX(3px); }
+  .ticker .sm { display: none; }
+  @media (max-width: 600px) {
+    .ticker { height: 42px; font-size: 13px; }
+    .ticker .lg { display: none; }
+    .ticker .sm { display: inline; }
+    .ticker .msg > .i:last-child { display: none; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .ticker .msg { transition: none; }
+  }
+
+  @media (max-width: 600px) {
+    .sectors .chips { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; width: 100%; }
+    .sectors .chip { font-size: 13.5px; padding: 9px 11px; gap: 6px; line-height: 1.25; border-radius: 14px; }
+  }

@@ -34,3 +34,22 @@ if (location.hash.indexOf('#s-') === 0) openTab(location.hash.slice(1), true);
 window.addEventListener('hashchange', function () {
   if (location.hash.indexOf('#s-') === 0) openTab(location.hash.slice(1), true);
 });
+
+(function () {
+  var msgs = document.querySelectorAll('.ticker .msg');
+  if (msgs.length < 2) return;
+  var i = 0, paused = false;
+  var ticker = msgs[0].parentNode;
+  ticker.addEventListener('mouseenter', function () { paused = true; });
+  ticker.addEventListener('mouseleave', function () { paused = false; });
+  setInterval(function () {
+    if (paused || document.hidden) return;
+    var cur = msgs[i];
+    i = (i + 1) % msgs.length;
+    cur.classList.remove('on');
+    cur.classList.add('out');
+    msgs[i].classList.remove('out');
+    msgs[i].classList.add('on');
+    setTimeout(function () { cur.classList.remove('out'); }, 500);
+  }, 4000);
+})();
