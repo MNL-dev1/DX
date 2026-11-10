@@ -186,6 +186,14 @@ body.cpt #compte{display:block}
 .badge{display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:800;padding:5px 10px;border-radius:999px;background:#FFF4D6;color:#8A5A00}
 .scan{width:100%;margin-top:12px}
 
+
+.sheet{position:fixed;inset:0;z-index:80;display:none;align-items:flex-end;justify-content:center;background:rgba(17,18,20,.45)}
+.sheet.show{display:flex}
+.sheet .box{background:#fff;width:100%;max-width:440px;border-radius:26px 26px 0 0;padding:24px 20px 30px;animation:up .3s}
+@keyframes up{from{transform:translateY(40px);opacity:0}to{transform:none;opacity:1}}
+.sheet h3{font-size:20px}.sheet p{color:var(--muted);margin:6px 0 16px}
+@media (max-width:420px){#login .lbl{display:none}}
+
 @media (min-width:760px){
   .ctas{grid-template-columns:1fr 1fr;max-width:520px}
   .strip div{width:190px;height:250px}
@@ -227,7 +235,7 @@ body.cpt #compte{display:block}
 <nav class="nav">
   <span class="brand">KAÏS<span>.</span></span>
   <div class="links"><a href="#prestations">Prestations</a><a href="#galerie">Galerie</a><a href="#acces">Accès</a></div>
-  <a class="btn btn-b btn-sm" href="#reserver"><svg class="i" aria-hidden="true"><use href="#i-calendar"/></svg>Réserver</a>
+  <span style="display:flex;gap:6px"><button class="btn btn-o btn-sm" id="login" style="padding:10px 13px" aria-label="Me connecter"><svg class="i" aria-hidden="true"><use href="#i-user"/></svg><span class="lbl">Me connecter</span></button><a class="btn btn-b btn-sm" href="#reserver"><svg class="i" aria-hidden="true"><use href="#i-calendar"/></svg>Réserver</a></span>
 </nav>
 
 <main id="client">
@@ -404,6 +412,14 @@ body.cpt #compte{display:block}
   </div>
 </main>
 
+<div class="sheet" id="sheet"><div class="box">
+  <h3>Mon compte fidélité</h3>
+  <p>Retrouvez votre QR code et vos points.</p>
+  <input id="lTel" placeholder="Votre numéro de téléphone" inputmode="tel" value="06 12 34 56 78">
+  <button class="btn btn-b" style="width:100%;margin-top:12px" id="lGo"><svg class="i" aria-hidden="true"><use href="#i-user"/></svg>Me connecter</button>
+  <button class="btn" style="width:100%;margin-top:6px;color:var(--muted)" id="lNo">Annuler</button>
+</div></div>
+
 <div class="toast" id="toast"><svg class="i" aria-hidden="true"><use href="#i-check"/></svg><span></span></div>
 
 <script>
@@ -480,6 +496,10 @@ function setView(v){document.body.classList.toggle('adm',v==='a');document.body.
 $('vClient').onclick=()=>setView('s');$('vCompte').onclick=()=>setView('c');$('vAdmin').onclick=()=>setView('a');
 $('scan').onclick=()=>{visits=Math.min(5,visits+1);renderCompte();toast(visits>=5?'Yanis B. : coupe offerte débloquée !':'Passage ajouté à Yanis B. ('+visits+'/5)')};
 ['avis2','avis3'].forEach(id=>$(id).addEventListener('click',()=>{st.avis++;renderStats();toast("Ouvre la page d'avis Google du salon (démo)")}));
+$('login').onclick=()=>$('sheet').classList.add('show');
+$('lNo').onclick=()=>$('sheet').classList.remove('show');
+$('sheet').onclick=e=>{if(e.target.id==='sheet')$('sheet').classList.remove('show')};
+$('lGo').onclick=()=>{$('sheet').classList.remove('show');setView('c');toast('Connecté à votre compte')};
 renderCompte();
 renderServices();renderDays();renderSlots();renderAgenda();renderStats();
 </script>
